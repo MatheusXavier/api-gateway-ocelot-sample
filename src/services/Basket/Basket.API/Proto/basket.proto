@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package BasketApi;
+
+service BasketGrpc {
+	rpc GetBasket (GetBasketRequest) returns (GetBasketResponse);
+	rpc AddBasketItem (AddBasketItemRequest) returns (google.protobuf.Empty);
+}
+
+message GetBasketRequest {
+	string customerId = 1;
+}
+
+message GetBasketResponse {
+	repeated BasketItemResponse items = 1;
+}
+
+message BasketItemResponse {
+	int32 productId = 1;
+	int32 quantity = 2;
+}
+
+message AddBasketItemRequest {
+	string customerId = 1;
+	int32 productId = 2;
+	int32 quantity = 3;
+}

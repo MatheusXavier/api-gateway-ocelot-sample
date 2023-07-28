@@ -32,13 +32,13 @@ public class RedisBasketRepository : IBasketRepository
 
     public async Task<CustomerBasket?> UpdateBasketAsync(CustomerBasket basket)
     {
-        bool created = await _database.StringSetAsync(basket.BuyerId.ToString(), JsonSerializer.Serialize(basket));
+        bool created = await _database.StringSetAsync(basket.CustomerId.ToString(), JsonSerializer.Serialize(basket));
 
         if (!created)
         {
             return null;
         }
 
-        return await GetBasketAsync(basket.BuyerId);
+        return await GetBasketAsync(basket.CustomerId);
     }
 }
