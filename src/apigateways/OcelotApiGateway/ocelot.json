@@ -1,0 +1,23 @@
+{
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/api/{version}/products",
+      "UpstreamHttpMethod": [
+        "GET",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/api/{version}/products",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7087
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "RequestIdKey": "OcRequestId",
+    "AdministrationPath": "/administration"
+  }
+}
