@@ -3,14 +3,27 @@ syntax = "proto3";
 package ProductApi;
 
 service ProductGrpc {
-	rpc GetProduct (GetProductRequest) returns (GetProductResponse);
+	rpc DoesProductExist (DoesProductExistRequest) returns (DoesProductExistResponse);
+	rpc GetProductByIds (GetProductByIdsRequest) returns (GetProductByIdsResponse);
 }
 
-message GetProductRequest {
+message DoesProductExistRequest {
 	int32 id = 1;
 }
 
-message GetProductResponse {
+message DoesProductExistResponse {
+	bool productExists = 1;
+}
+
+message GetProductByIdsRequest {
+	repeated int32 ids = 1;
+}
+
+message GetProductByIdsResponse {
+	repeated ProductSummaryResponse products = 1;
+}
+
+message ProductSummaryResponse {
 	int32 id = 1;
 	string name = 2;
 	string description = 3;

@@ -18,29 +18,43 @@ public class ProductService : ProductGrpc.ProductGrpcBase
         _context = context;
     }
 
-    public override async Task<GetProductResponse> GetProduct(GetProductRequest request, ServerCallContext context)
+    public override async Task<DoesProductExistResponse> DoesProductExist(
+        DoesProductExistRequest request,
+        ServerCallContext context)
     {
-        ProductItem? product = await _context.Products
+        bool productExists = await _context.Products
             .Where(p => p.Id == request.Id)
             .AsNoTracking()
-            .FirstOrDefaultAsync();
+            .AnyAsync();
 
-        if (product is null)
+        return new DoesProductExistResponse
         {
-            throw new RpcException(new Status(StatusCode.NotFound, $"Could not found product with id: {request.Id}"));
-        }
-
-        if (!product.Active)
-        {
-            throw new RpcException(new Status(StatusCode.NotFound, $"Product with id: {request.Id} is disabled"));
-        }
-
-        return new GetProductResponse
-        {
-            Id = product.Id,
-            Name = product.Name,
-            Description = product.Description,
-            Price = product.Price,
+            ProductExists = productExists,
         };
+    }
+
+    public override async Task<GetProductByIdsResponse> GetProductByIds(
+        GetProductByIdsRequest request,
+        ServerCallContext context)
+    {
+        List<ProductItem> products = await _context.Products
+            .Where(p => request.Ids.Contains(p.Id))
+            .AsNoTracking()
+            .ToListAsync();
+
+        GetProductByIdsResponse response = new();
+
+        foreach (ProductItem product in products)
+        {
+            response.Products.Add(new ProductSummaryResponse
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price
+            });
+        }
+
+        return response;
     }
 }
