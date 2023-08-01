@@ -6,6 +6,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOcelot();
+builder.Services.AddSwaggerForOcelot(builder.Configuration);
 
 builder.Configuration.AddJsonFile("ocelot.json");
 
@@ -13,9 +14,11 @@ WebApplication app = builder.Build();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseSwaggerForOcelotUI(option =>
+{
+    option.PathToSwaggerGenerator = "/swagger/docs";
+});
 app.MapControllers();
-
-//app.Run();
 
 await app.UseOcelot();
 await app.RunAsync();

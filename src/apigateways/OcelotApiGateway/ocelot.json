@@ -1,10 +1,10 @@
 {
   "Routes": [
     {
+      "SwaggerKey": "productapi",
       "UpstreamPathTemplate": "/api/{version}/products",
       "UpstreamHttpMethod": [
-        "GET",
-        "OPTIONS"
+        "GET"
       ],
       "DownstreamPathTemplate": "/api/{version}/products",
       "DownstreamScheme": "https",
@@ -14,10 +14,73 @@
           "Port": 7087
         }
       ]
+    },
+    {
+      "SwaggerKey": "aggregator",
+      "UpstreamPathTemplate": "/api/{version}/customers/{id}/baskets",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST"
+      ],
+      "DownstreamPathTemplate": "/api/{version}/customers/{id}/baskets",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7067
+        }
+      ]
+    },
+    {
+      "SwaggerKey": "basketapi",
+      "UpstreamPathTemplate": "/api/{version}/customers/{id}/baskets/{productId}",
+      "UpstreamHttpMethod": [
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/api/{version}/customers/{id}/baskets/{productId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7298
+        }
+      ]
     }
   ],
   "GlobalConfiguration": {
     "RequestIdKey": "OcRequestId",
     "AdministrationPath": "/administration"
-  }
+  },
+  "SwaggerEndPoints": [
+    {
+      "Key": "productapi",
+      "Config": [
+        {
+          "Name": "Product API",
+          "Version": "v1",
+          "Url": "https://localhost:7087/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "aggregator",
+      "Config": [
+        {
+          "Name": "Aggregator",
+          "Version": "v1",
+          "Url": "https://localhost:7067/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "basketapi",
+      "Config": [
+        {
+          "Name": "Basket API",
+          "Version": "v1",
+          "Url": "https://localhost:7298/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ]
 }
