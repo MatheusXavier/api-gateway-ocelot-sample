@@ -16,7 +16,7 @@ Basically we have 4 endpoints:
 3. Removes a product from a basket
 4. Search all products in a basket
 
-The API Gateway in a productive environment works as a single entry point, so all these 4 endpoints will pass through it, for each endpoint we have a rule:
+In a production environment, the API Gateway works as a single entrypoint, so all these 4 endpoints will pass through it, for each endpoint we have a rule:
 1. On endpoint 1 we will forward to the Product service which will return the list of all products
 2. On endpoint 2 we will forward to the aggregation service, which will make a gRPC call to the Product service to ensure that the product exists and then will make a call to the Basket service to add this product in the basket
 3. On endpoint 3 we will foward to the Basket service to remove the product from a basket
