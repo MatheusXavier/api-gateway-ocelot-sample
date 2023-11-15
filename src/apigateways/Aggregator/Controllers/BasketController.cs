@@ -56,7 +56,7 @@ public class BasketController : ControllerBase
     }
 
     [HttpPost("api/v1/customers/{id:guid}/baskets")]
-    public async Task<IActionResult> AddBasketItem(Guid id, BasketItemData basketItem)
+    public async Task<IActionResult> AddBasketItemAsync(Guid id, BasketItemData basketItem)
     {
         if (basketItem.Quantity <= 0)
         {
